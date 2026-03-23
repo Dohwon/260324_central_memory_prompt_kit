@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CentralMemoryProfile",
+  "type": "object",
+  "required": [
+    "owner",
+    "generated_at",
+    "user_profile",
+    "work_profile"
+  ],
+  "properties": {
+    "owner": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "user_profile": {
+      "type": "object",
+      "required": [
+        "one_line",
+        "communication_style",
+        "working_style",
+        "technical_preferences"
+      ],
+      "properties": {
+        "one_line": {"type": "string"},
+        "communication_style": {"type": "array", "items": {"type": "string"}},
+        "working_style": {"type": "array", "items": {"type": "string"}},
+        "technical_preferences": {"type": "array", "items": {"type": "string"}},
+        "do_not": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "work_profile": {
+      "type": "object",
+      "required": ["long_term", "mid_term", "short_term"]
+    }
+  }
+}

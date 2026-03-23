@@ -1,0 +1,10 @@
+---
+description: Global memory
+globs:
+alwaysApply: true
+---
+
+{{SHARED_SOURCE_OF_TRUTH}}
+
+## Session Rule
+- 테스트/검증 근거를 반드시 남긴다.
