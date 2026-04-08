@@ -118,3 +118,79 @@
 ## 권장 중앙 저장 위치
 
 - `/home/dowon/securedir/git/codex/central_memory`
+
+## Web App
+
+- 이 저장소는 이제 문서 저장소이면서 동시에 프롬프트 게시판/거래소용 Next.js 앱을 포함한다.
+- 메인 화면은 프롬프트 제목과 설명을 보드처럼 노출한다.
+- 상세 페이지는 Google 로그인 후 구매자 이메일 화이트리스트에 포함된 계정만 전체 본문을 볼 수 있다.
+- 현재 결제는 직접 연동하지 않았고, `PURCHASER_EMAILS`로 구매자 접근을 관리한다.
+
+### 주요 경로
+
+- `/`
+  - 프롬프트 보드
+- `/login`
+  - Google 로그인 및 접근 상태 안내
+- `/prompt/[slug]`
+  - 프롬프트 상세
+
+### 필수 환경변수
+
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL`
+- `ADMIN_EMAILS`
+- `PURCHASER_EMAILS`
+- `SALES_CONTACT_EMAIL`
+- `NEXT_PUBLIC_PURCHASE_URL`
+
+### 로컬 실행
+
+```bash
+npm install
+npm run dev
+```
+
+### 프로덕션 빌드
+
+```bash
+npm run build
+npm run start
+```
+
+## Railway Deployment
+
+Railway 공식 Next.js 가이드는 `output: "standalone"`과 `package.json`의 start script를 기준으로 배포하라고 안내한다. 이 저장소는 그 구조를 이미 반영했다.
+
+출처:
+- Railway Next.js guide: https://docs.railway.com/guides/nextjs
+
+### 배포 순서
+
+1. Railway에서 새 프로젝트를 만든다.
+2. 이 GitHub 저장소를 연결하거나 CLI로 현재 디렉터리를 업로드한다.
+3. 서비스 도메인을 생성한다.
+4. 생성된 도메인을 기준으로 `NEXTAUTH_URL`을 설정한다.
+5. Google Cloud Console에서 OAuth 앱을 만들고 승인된 리디렉션 URI에 아래 값을 넣는다.
+
+```text
+https://<railway-domain>/api/auth/callback/google
+```
+
+6. `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `NEXTAUTH_SECRET`를 Railway Variables에 추가한다.
+7. `ADMIN_EMAILS`, `PURCHASER_EMAILS`, `SALES_CONTACT_EMAIL`, `NEXT_PUBLIC_PURCHASE_URL`를 추가한다.
+8. 다시 배포한다.
+
+### 현재 접근 제어 모델
+
+- 비로그인: 카드 목록과 티저만 노출
+- 로그인했지만 미구매: 상세 페이지는 잠금 상태
+- 구매자 또는 관리자: 전체 Markdown 본문 열람 가능
+
+### 다음 확장 포인트
+
+- `PURCHASER_EMAILS` 화이트리스트를 Stripe 또는 Lemon Squeezy webhook 기반 DB로 교체
+- 구매자 관리용 관리자 화면 추가
+- 프롬프트별 개별 권한 모델 추가

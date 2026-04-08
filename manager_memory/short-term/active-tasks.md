@@ -23,3 +23,15 @@
   - status: pending
   - due: 2026-04-08
   - next_action: 전 스킬 문서 자동 생성 여부 판단
+
+- [x] Railway 프로젝트 생성 및 서비스 도메인 발급
+  - owner: Codex
+  - status: done
+  - due: 2026-04-09
+  - next_action: Railway Variables 입력 및 최종 재배포
+
+- [ ] Google OAuth 실사용 환경변수 입력
+  - owner: User
+  - status: pending
+  - due: 2026-04-09
+  - next_action: Google Cloud Console에서 client id/secret 발급 후 Railway Variables에 등록
