@@ -360,6 +360,17 @@ button {
   letter-spacing: -0.03em;
 }
 
+.board-section + .board-section {
+  margin-top: 24px;
+}
+
+.board-section__title {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
 .board-filters {
   display: grid;
   grid-template-columns: minmax(180px, 0.9fr) minmax(220px, 1fr) minmax(260px, 1.4fr) auto;

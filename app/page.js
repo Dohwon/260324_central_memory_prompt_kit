@@ -15,6 +15,36 @@ export default async function HomePage({ searchParams }) {
   };
   const prompts = getPromptCatalog(filters);
   const categories = getPromptCategories();
+  const promptOriginals = prompts.filter((item) => item.entryType === "prompt");
+  const referenceDocs = prompts.filter((item) => item.entryType !== "prompt");
+
+  function renderBoardSection(title, items) {
+    if (!items.length) {
+      return null;
+    }
+
+    return (
+      <section className="board-section">
+        <h2 className="board-section__title">{title}</h2>
+        <div className="board-list">
+          <div className="board-list__head">
+            <span>Title</span>
+            <span>Description</span>
+            <span>Category</span>
+            <span>Status</span>
+          </div>
+
+          {items.map((prompt) => (
+            <PromptBoardCard
+              key={prompt.slug}
+              prompt={prompt}
+              hasVaultAccess={viewer.hasVaultAccess}
+            />
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="board-page">
@@ -52,26 +82,16 @@ export default async function HomePage({ searchParams }) {
           </button>
         </form>
 
-        <div className="board-list" id="prompt-board">
-          <div className="board-list__head">
-            <span>Title</span>
-            <span>Description</span>
-            <span>Category</span>
-            <span>Status</span>
-          </div>
-
-          {prompts.length ? (
-            prompts.map((prompt) => (
-              <PromptBoardCard
-                key={prompt.slug}
-                prompt={prompt}
-                hasVaultAccess={viewer.hasVaultAccess}
-              />
-            ))
-          ) : (
+        {prompts.length ? (
+          <>
+            {renderBoardSection("원문 프롬프트", promptOriginals)}
+            {renderBoardSection("규칙 / 운영 문서", referenceDocs)}
+          </>
+        ) : (
+          <div className="board-list" id="prompt-board">
             <div className="board-empty">검색 결과가 없습니다.</div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );
