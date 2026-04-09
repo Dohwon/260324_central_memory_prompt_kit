@@ -4,7 +4,6 @@ import "@/app/globals.css";
 import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
 import { authOptions } from "@/lib/auth";
-import { getVaultStats } from "@/lib/prompt-store";
 
 export const metadata = {
   title: "Prompt Vault Board",
@@ -14,14 +13,13 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
-  const stats = getVaultStats();
 
   return (
     <html lang="ko">
       <body>
         <Providers session={session}>
           <div className="page-shell">
-            <Header session={session} stats={stats} />
+            <Header session={session} />
             <main>{children}</main>
           </div>
         </Providers>

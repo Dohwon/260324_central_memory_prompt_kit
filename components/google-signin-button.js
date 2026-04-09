@@ -26,7 +26,11 @@ export function GoogleSignInButton({ configured = true }) {
   }
 
   return (
-    <button className="auth-pill" onClick={() => signIn("google")} type="button">
+    <button
+      className="auth-pill"
+      onClick={() => signIn("google", { callbackUrl: "/" })}
+      type="button"
+    >
       Google로 로그인
     </button>
   );
